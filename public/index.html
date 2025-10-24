@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Login Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Sistema de Login</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 20px;">
+            Agora funcionando online!
+        </p>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Seu e-mail" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="senha" placeholder="Sua senha" required>
+            </div>
+            <button type="submit">Enviar para o Servidor</button>
+        </form>
+        
+        <div class="result" id="result"></div>
+        
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="/health" style="color: #667eea;">Testar Servidor</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            const result = document.getElementById('result');
+            
+            try {
+                const response = await fetch('/receber-login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        senha: senha
+                    })
+                });
+                
+                const data = await response.json();
+                
+                result.className = 'result success';
+                result.innerHTML = `
+                    <strong>✅ ${data.message}</strong><br>
+                    <small>Email: ${email}</small><br>
+                    <small>Data: ${data.data}</small>
+                `;
+                result.style.display = 'block';
+                
+                // Limpar formulário
+                document.getElementById('loginForm').reset();
+                
+            } catch (error) {
+                result.className = 'result error';
+                result.innerHTML = `
+                    <strong>❌ Erro ao enviar</strong><br>
+                    <small>${error.message}</small>
+                `;
+                result.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
