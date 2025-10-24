@@ -1,7 +1,6 @@
 {
   "name": "sistema-login",
   "version": "1.0.0",
-  "description": "Sistema de login com backend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
